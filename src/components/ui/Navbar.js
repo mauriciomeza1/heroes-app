@@ -1,15 +1,25 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+import {AuthContext} from '../../auth/authContext'
+import { types } from '../../types/types'
 
 export const Navbar = () => {
 
-
+    const {user} = useContext(AuthContext)
     const navigate = useNavigate()
 
+    const {dispatch} = useContext(AuthContext)
+    
     const handleLogOut = () => {
-        navigate('/login', {
+        const action = {
+            type: types.logout
+          }
+          
+          navigate('/login', {
             replace: true
-        })
+          })
+      
+          dispatch(action) 
     }
 
     return (
@@ -17,9 +27,9 @@ export const Navbar = () => {
             
             <Link 
                 className="navbar-brand" 
-                to="/"
+                to="/marvel"
             >
-                Asociaciones
+                Associations
             </Link>
 
             <div className="navbar-collapse">
@@ -52,7 +62,7 @@ export const Navbar = () => {
                 <ul className="navbar-nav ml-auto">
 
                     <span className='nav-item nav-link text-info'>
-                        Mauricio
+                        {user.name}
                     </span>
 
                     <button
